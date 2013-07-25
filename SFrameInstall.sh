@@ -25,6 +25,9 @@ fi
 svn co https://sframe.svn.sourceforge.net/svnroot/sframe/SFrame/tags/SFrame-03-06-11 $SFRAMEDIR
 
 cd $SFRAMEDIR
+# remove -lpcre from the core to make sframe_main compile:
+sed -i s/-lpcre// core/Makefile
+# create and source fullsetup.sh:
 echo 'export FASTJETDIR='${FASTJETDIR}' \nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
 source fullsetup.sh
 
