@@ -38,7 +38,6 @@ git clone https://github.com/UHHAnalysis/SFrameTools.git SFrameTools
 git clone https://github.com/UHHAnalysis/SFrameAnalysis.git SFrameAnalysis
 
 cd NtupleWriter
-./configure.sh
 make -j 8
 cd ../SFrameTools
 make -j 8
@@ -46,4 +45,3 @@ cd JetMETObjects
 make -j 8
 cd ../../SFrameAnalysis
 make -j 8
-
