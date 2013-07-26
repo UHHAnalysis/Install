@@ -13,8 +13,15 @@ fi
 SFRAMEDIR=`readlink -f $1`
 FASTJETDIR=`readlink -f $2`
 
+if [ -z $SFRAMEDIR ]; then
+   echo "Error: could not resolve given SFRAME target directory '$1'. Make sure to provide a path for which all components but the last exist, omitting the trailing '/'.";
+   return 1;
+fi
+   
+
 if [[ -e $SFRAMEDIR ]]; then
-    echo "Warning: directory $SFRAMEDIR already exists, content may be overwritten"
+    echo "Error: directory $SFRAMEDIR already exists."
+    return 1;
 fi
 
 if [ ! -e $FASTJETDIR/libfastjet.so ]; then
@@ -29,6 +36,8 @@ cd $SFRAMEDIR
 sed -i s/-lpcre// core/Makefile
 # create and source fullsetup.sh:
 echo 'export FASTJETDIR='${FASTJETDIR}' \nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
+# SFrame's setup.sh does not like if there is already a SFRAME_DIR set, so unset it:
+export SFRAME_DIR=""
 source fullsetup.sh
 
 make -j 8
