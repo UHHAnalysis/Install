@@ -45,6 +45,7 @@ make -j 8
 git clone https://github.com/UHHAnalysis/NtupleWriter.git NtupleWriter
 git clone https://github.com/UHHAnalysis/SFrameTools.git SFrameTools
 git clone https://github.com/UHHAnalysis/SFrameAnalysis.git SFrameAnalysis
+git clone https://github.com/UHHAnalysis/SFramePlotter.git SFramePlotter
 
 cd NtupleWriter
 make -j 8
@@ -54,3 +55,14 @@ cd JetMETObjects
 make -j 8
 cd ../../SFrameAnalysis
 make -j 8
+cd $SFRAMEDIR/SFramePlotter
+make
+cd $SFRAMEDIR
+
+echo "\n--------------------------------------------------------------"
+echo "SFrame installed. Have fun!"
+echo "Additional packages can be installed using:" 
+echo "git clone https://github.com/UHHAnalysis/XYZ.git XYZ"
+echo "where XYZ is the name of the analysis package"
+echo "\n--------------------------------------------------------------"
+
