@@ -29,9 +29,14 @@ if [ ! -e $FASTJETDIR/libfastjet.so ]; then
     return 1;
 fi
 
-svn co https://sframe.svn.sourceforge.net/svnroot/sframe/SFrame/tags/SFrame-03-06-11 $SFRAMEDIR
+svn co https://svn.code.sf.net/p/sframe/code/SFrame/tags/SFrame-03-06-11 $SFRAMEDIR
+#if [ "$_" -neq "0" ]; then
+#   echo "svn co failed!";
+#   return 1;
+#fi
 
-cd $SFRAMEDIR
+
+cd $SFRAMEDIR || { echo "svn co failed!"; return 1; }
 # remove -lpcre from the core to make sframe_main compile:
 sed -i s/-lpcre// core/Makefile
 # create and source fullsetup.sh:
