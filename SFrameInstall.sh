@@ -40,7 +40,7 @@ cd $SFRAMEDIR || { echo "svn co failed!"; exit 1; }
 # remove -lpcre from the core to make sframe_main compile:
 sed -i s/-lpcre// core/Makefile
 # create and source fullsetup.sh:
-echo 'export FASTJETDIR='${FASTJETDIR}' \nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
+echo -e 'export FASTJETDIR='${FASTJETDIR}' \nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
 # SFrame's setup.sh does not like if there is already a SFRAME_DIR set, so unset it:
 export SFRAME_DIR=""
 source fullsetup.sh
