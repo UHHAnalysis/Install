@@ -20,7 +20,7 @@ fi
    
 
 if [[ -e $SFRAMEDIR ]]; then
-    echo "Error: directory $SFRAMEDIR already exists."
+    echo "Error: directory $SFRAMEDIR already exists; please use a non-existent dir."
     exit 1;
 fi
 
@@ -29,39 +29,47 @@ if [ ! -e $FASTJETDIR/libfastjet.so ]; then
     exit 1;
 fi
 
-svn co https://svn.code.sf.net/p/sframe/code/SFrame/tags/SFrame-03-06-11 $SFRAMEDIR
-#if [ "$_" -neq "0" ]; then
-#   echo "svn co failed!";
-#   exit 1;
-#fi
+function run_checked () {
+   $*
+   if [ $? -ne 0 ]; then
+     echo "Executing $* failed (pwd: $PWD)";
+     exit 1;
+   fi
+}
 
+run_checked svn co https://svn.code.sf.net/p/sframe/code/SFrame/tags/SFrame-03-06-23 $SFRAMEDIR
 
 cd $SFRAMEDIR || { echo "svn co failed!"; exit 1; }
-# remove -lpcre from the core to make sframe_main compile:
-sed -i s/-lpcre// core/Makefile
-# create and source fullsetup.sh:
-echo -e 'export FASTJETDIR='${FASTJETDIR}' \nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
-# SFrame's setup.sh does not like if there is already a SFRAME_DIR set, so unset it:
-export SFRAME_DIR=""
-source fullsetup.sh
-
-make -j 8
 
 git clone https://github.com/UHHAnalysis/NtupleWriter.git NtupleWriter
 git clone https://github.com/UHHAnalysis/SFrameTools.git SFrameTools
 git clone https://github.com/UHHAnalysis/SFrameAnalysis.git SFrameAnalysis
 git clone https://github.com/UHHAnalysis/SFramePlotter.git SFramePlotter
 
+# apply patches:
+export SFRAME_DIR=$SFRAMEDIR
+./SFrameTools/apply-sframe-patches.sh || { echo "Error applying sframe patched"; exit 1; }
+
+# create and source fullsetup.sh:
+echo -e 'export FASTJETDIR='${FASTJETDIR}' \nBOOSTDIR=/cvmfs/cms.cern.ch/slc5_amd64_gcc462/external/boost/1.47.0/include\nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
+# SFrame's setup.sh does not like if there is already a SFRAME_DIR set, so unset it:
+export SFRAME_DIR=""
+source fullsetup.sh
+
+# compile sframe itself:
+run_checked make -j 8
+
+# sompile other packages:
 cd NtupleWriter
-make -j 8
+run_checked make -j 8
 cd ../SFrameTools
-make -j 8
+run_checked make -j 8
 cd JetMETObjects 
-make -j 8
+run_checked make -j 8
 cd ../../SFrameAnalysis
-make -j 8
+run_checked make -j 8
 cd $SFRAMEDIR/SFramePlotter
-make
+run_checked make
 cd $SFRAMEDIR
 
 echo "\n--------------------------------------------------------------"
