@@ -51,7 +51,7 @@ export SFRAME_DIR=$SFRAMEDIR
 ./SFrameTools/apply-sframe-patches.sh || { echo "Error applying sframe patched"; exit 1; }
 
 # create and source fullsetup.sh:
-echo -e 'export FASTJETDIR='${FASTJETDIR}' \nBOOSTDIR=/cvmfs/cms.cern.ch/slc5_amd64_gcc462/external/boost/1.47.0/include\nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
+echo -e 'export FASTJETDIR='${FASTJETDIR}' \nexport BOOSTDIR=/cvmfs/cms.cern.ch/slc5_amd64_gcc462/external/boost/1.47.0/include\nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
 # SFrame's setup.sh does not like if there is already a SFRAME_DIR set, so unset it:
 export SFRAME_DIR=""
 source fullsetup.sh
