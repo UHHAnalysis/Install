@@ -56,21 +56,11 @@ echo -e 'export FASTJETDIR='${FASTJETDIR}' \nexport BOOSTDIR=/cvmfs/cms.cern.ch/
 export SFRAME_DIR=""
 source fullsetup.sh
 
-# compile sframe itself:
-run_checked make -j 8
 
-# sompile other packages:
-cd NtupleWriter
-run_checked make -j 8
-cd ../SFrameTools
-run_checked make -j 8
-cd JetMETObjects 
-run_checked make -j 8
-cd ../../SFrameAnalysis
-run_checked make -j 8
-cd $SFRAMEDIR/SFramePlotter
-run_checked make
-cd $SFRAMEDIR
+ln -s SFrameTools/makeall .
+
+# compile eveything:
+run_checked ./makeall -j 8
 
 echo "\n--------------------------------------------------------------"
 echo "SFrame installed. Have fun!"
