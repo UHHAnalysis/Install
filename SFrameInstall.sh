@@ -37,7 +37,7 @@ function run_checked () {
    fi
 }
 
-run_checked svn co https://svn.code.sf.net/p/sframe/code/SFrame/tags/SFrame-03-06-23 $SFRAMEDIR
+run_checked svn co https://svn.code.sf.net/p/sframe/code/SFrame/tags/SFrame-03-06-27 $SFRAMEDIR
 
 cd $SFRAMEDIR || { echo "svn co failed!"; exit 1; }
 
