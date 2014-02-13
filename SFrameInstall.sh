@@ -17,7 +17,7 @@ if [ -z $SFRAMEDIR ]; then
    echo "Error: could not resolve given SFRAME target directory '$1'. Make sure to provide a path for which all components but the last exist, omitting the trailing '/'.";
    exit 1
 fi
-   
+
 
 if [[ -e $SFRAMEDIR ]]; then
     echo "Error: directory $SFRAMEDIR already exists; please use a non-existent dir."
@@ -58,13 +58,14 @@ source fullsetup.sh
 
 
 ln -s SFrameTools/makeall .
+ln -s SFrameTools/python/bsframe.py ${SFRAMEDIR}/bin
 
 # compile eveything:
 run_checked ./makeall -j 8
 
 echo "\n--------------------------------------------------------------"
 echo "SFrame installed. Have fun!"
-echo "Additional packages can be installed using:" 
+echo "Additional packages can be installed using:"
 echo "git clone https://github.com/UHHAnalysis/XYZ.git XYZ"
 echo "where XYZ is the name of the analysis package"
 echo "\n--------------------------------------------------------------"
