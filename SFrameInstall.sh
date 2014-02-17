@@ -59,7 +59,7 @@ source fullsetup.sh
 
 
 ln -s SFrameTools/makeall .
-ln -s SFrameTools/python/bsframe.py ${SFRAMEDIR}/bin
+ln -s ../SFrameTools/python/bsframe.py ${SFRAMEDIR}/bin
 
 # compile eveything:
 run_checked ./makeall -j 8
