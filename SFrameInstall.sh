@@ -51,7 +51,7 @@ git clone --branch $BRANCH https://github.com/UHHAnalysis/NtupleWriter.git Ntupl
 git clone https://github.com/UHHAnalysis/SFrameTools.git SFrameTools
 git clone --branch $BRANCH https://github.com/UHHAnalysis/SFrameAnalysis.git SFrameAnalysis
 git clone https://github.com/UHHAnalysis/SFramePlotter.git SFramePlotter
-exit 0
+
 # apply patches:
 export SFRAME_DIR=$SFRAMEDIR
 ./SFrameTools/apply-sframe-patches.sh || { echo "Error applying sframe patched"; exit 1; }
