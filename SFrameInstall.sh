@@ -1,13 +1,19 @@
 #!/bin/sh
 
-if [ "$#" -ne 2 ] ; then
-    echo "Usage: ./SFrameInstall.sh <directory to install sframe> <directory of fastjet lib directory>"
+if [ "$#" -ne 2 ] && [ "$#" -ne 3 ] ; then
+    echo "Usage: ./SFrameInstall.sh <directory to install sframe> <directory of fastjet lib directory> <revision branch>(optional)"
     exit 1;
 fi
 
 if [ "${ROOTSYS}" = "" ] ; then
     echo "Please setup ROOT before calling this script"
     exit 1;
+fi
+
+BRANCH="master"
+
+if [ "$#" = 3 ] ; then
+    BRANCH=$3
 fi
 
 SFRAMEDIR=`readlink -f $1`
@@ -41,11 +47,11 @@ run_checked svn co https://svn.code.sf.net/p/sframe/code/SFrame/tags/SFrame-03-0
 
 cd $SFRAMEDIR || { echo "svn co failed!"; exit 1; }
 
-git clone https://github.com/UHHAnalysis/NtupleWriter.git NtupleWriter
+git clone --branch $BRANCH https://github.com/UHHAnalysis/NtupleWriter.git NtupleWriter
 git clone https://github.com/UHHAnalysis/SFrameTools.git SFrameTools
-git clone https://github.com/UHHAnalysis/SFrameAnalysis.git SFrameAnalysis
+git clone --branch $BRANCH https://github.com/UHHAnalysis/SFrameAnalysis.git SFrameAnalysis
 git clone https://github.com/UHHAnalysis/SFramePlotter.git SFramePlotter
-
+exit 0
 # apply patches:
 export SFRAME_DIR=$SFRAMEDIR
 ./SFrameTools/apply-sframe-patches.sh || { echo "Error applying sframe patched"; exit 1; }
