@@ -57,11 +57,12 @@ export SFRAME_DIR=$SFRAMEDIR
 ./SFrameTools/apply-sframe-patches.sh || { echo "Error applying sframe patched"; exit 1; }
 
 # create and source fullsetup.sh:
-echo -e 'export FASTJETDIR='${FASTJETDIR}' \nexport BOOSTDIR=/cvmfs/cms.cern.ch/slc5_amd64_gcc462/external/boost/1.47.0/include\nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.sh' > fullsetup.sh
-echo -e 'setenv FASTJETDIR '${FASTJETDIR}' \nsetenv BOOSTDIR /cvmfs/cms.cern.ch/slc5_amd64_gcc462/external/boost/1.47.0/include\nsetenv LD_LIBRARY_PATH "'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource setup.csh' > fullsetup.csh
+
+echo -e 'echo "************************************************"\necho "*     __   ____        *   *       *           *"\necho "*    / _| |  __|          *     *              *"\necho "*   / /   | |_                *                *"\necho "*   \ \   |  _|  __    __   _________    ___   *"\necho "*    \ \  | |   |  /  /  | |  _   _  |  / . \  *"\necho "*   _/ /  | |   | |  | 0 | | | | | | |  \  _/  *"\necho "*  |__/   |_|   |_|   \__| |_| |_| |_|   \__\  *"\necho "*                                              *"\necho "************************************************"\nexport FASTJETDIR='${FASTJETDIR}' \nexport BOOSTDIR=/cvmfs/cms.cern.ch/slc5_amd64_gcc462/external/boost/1.47.0/include\nexport LD_LIBRARY_PATH="'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource '$PWD'/setup.sh' > fullsetup.sh
+echo -e 'echo "************************************************"\necho "*     __   ____        *   *       *           *"\necho "*    / _| |  __|          *     *              *"\necho "*   / /   | |_                *                *"\necho "*   \ \   |  _|  __    __   _________    ___   *"\necho "*    \ \  | |   |  /  /  | |  _   _  |  / . \  *"\necho "*   _/ /  | |   | |  | 0 | | | | | | |  \  _/  *"\necho "*  |__/   |_|   |_|   \__| |_| |_| |_|   \__\  *"\necho "*                                              *"\necho "************************************************"\nsetenv FASTJETDIR '${FASTJETDIR}' \nsetenv BOOSTDIR /cvmfs/cms.cern.ch/slc5_amd64_gcc462/external/boost/1.47.0/include\nsetenv LD_LIBRARY_PATH "'$FASTJETDIR:${SFRAMEDIR}'/SFrameTools/JetMETObjects/lib:$LD_LIBRARY_PATH" \nsource '$PWD'/setup.csh' > fullsetup.csh
 # SFrame's setup.sh does not like if there is already a SFRAME_DIR set, so unset it:
 export SFRAME_DIR=""
-source fullsetup.sh
+source $PWD/fullsetup.sh
 
 
 ln -s SFrameTools/makeall .
