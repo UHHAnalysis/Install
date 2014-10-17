@@ -48,7 +48,7 @@ run_checked svn co https://svn.code.sf.net/p/sframe/code/SFrame/tags/SFrame-03-0
 cd $SFRAMEDIR || { echo "svn co failed!"; exit 1; }
 
 git clone --branch $BRANCH https://github.com/UHHAnalysis/NtupleWriter.git NtupleWriter
-git clone https://github.com/UHHAnalysis/SFrameTools.git SFrameTools
+git clone --branch $BRANCH https://github.com/UHHAnalysis/SFrameTools.git SFrameTools
 git clone --branch $BRANCH https://github.com/UHHAnalysis/SFrameAnalysis.git SFrameAnalysis
 git clone https://github.com/UHHAnalysis/SFramePlotter.git SFramePlotter
 
